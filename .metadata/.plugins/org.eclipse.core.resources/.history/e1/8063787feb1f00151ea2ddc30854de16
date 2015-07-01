@@ -1,0 +1,49 @@
+package main;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+/**
+ * TODO - Place class description here
+ */
+public class Main {
+
+    /**
+     * TODO - Place method description here
+     * 
+     * @param args
+     * @throws IOException
+     */
+    public static void main(final String[] args) throws IOException {
+        ProxySelector.setDefault(new ProxySelector() {
+
+            @Override
+            public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+                throw new RuntimeException("Proxy connect failed", ioe);
+            }
+
+            @Override
+            public List select(URI uri) {
+                return Arrays
+                    .asList(new Proxy(Proxy.Type.HTTP,
+                                      new InetSocketAddress(proxyHost,
+                                                            proxyPort)));
+            }
+        });
+
+        
+        final Document doc = Jsoup.connect("www.google.com/").get();
+        final Elements newsHeadlines = doc.select("#mp-itn b a");
+
+        // final Document doc = Jsoup.connect("https://www.pinterest.com/kevinpauly/").get();
+        // final Elements boardLinks = doc.select("a[href].boardLinkWrapper");
+        for (final Element link : newsHeadlines) {
+            System.out.println(": " + link.text());
+        }
+
+    }
+}

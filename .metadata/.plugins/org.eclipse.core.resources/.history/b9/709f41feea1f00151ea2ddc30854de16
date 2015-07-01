@@ -1,0 +1,28 @@
+package main;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+/**
+ * TODO - Place class description here
+ */
+public class Main {
+
+    /**
+     * TODO - Place method description here
+     * 
+     * @param args
+     * @throws IOException
+     */
+    public static void main(final String[] args) throws IOException {
+        final Document doc = Jsoup.connect("https://www.pinterest.com/kpauly").get();
+        final Elements boardLinks = doc.select("a[href].boardLinkWrapper");
+        for (final Element link : boardLinks) {
+            System.out.println(": " + link.text());
+        }
+    }
+}

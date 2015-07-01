@@ -1,0 +1,4 @@
+auto-publish=false
+eclipse.preferences.version=1
+module-start-timeout=180000
+runtimes=<?xml version\="1.0" encoding\="UTF-8"?><runtimes>\r\n  <runtime alternate-names\="WebSphere Application Server v8.0 stub" current_SDK_Id\="1.6_64" id\="WebSphere Application Server v8.0" id-set\="true" location\="C\:/IBM/WAS80" locked\="true" name\="WebSphere Application Server v8.0" runtime-type-id\="com.ibm.ws.ast.st.runtime.v80" stub\="false" test-environment\="true" timestamp\="0"/>\r\n</runtimes>

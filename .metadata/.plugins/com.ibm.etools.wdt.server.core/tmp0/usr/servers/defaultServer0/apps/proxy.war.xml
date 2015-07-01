@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><archive id="defaultServer0">
+  <dir sourceOnDisk="C:\Projects\PinCrawl\.metadata\.plugins\com.ibm.etools.wdt.server.core\tmp0\usr\servers\defaultServer0\apps\proxy" targetInArchive="/"/>
+  <dir sourceOnDisk="C:\Projects\PinCrawl\.metadata\.plugins\com.ibm.etools.wdt.server.core\tmp0\usr\servers\defaultServer0\apps\proxy\WEB-INF\Classes" targetInArchive="/WEB-INF/Classes"/>
+</archive>

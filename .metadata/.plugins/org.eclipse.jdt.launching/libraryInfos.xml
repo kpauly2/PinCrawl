@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><libraryInfos>
+<libraryInfo home="C:\IBM\SDP90\jdk\jre" version="1.7.0">
+<bootpath>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\jaxws-api.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\jaxb-api.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\javax.j2ee.annotation.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\bin\compressedrefs\jclSC170\vm.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\se-service.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\math.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\jlm.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmorb.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmorbapi.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmpkcs.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcertpathfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjgssfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjssefw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmsaslfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjcefw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjgssprovider.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjsseprovider2.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcertpathprovider.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\xmldsigfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\xml.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\charsets.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\resources.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\rt.jar"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="C:\IBM\WAS80\java" version="1.6.0">
+<bootpath>
+<entry path="C:\IBM\WAS80\java\jre\bin\compressedrefs\jclSC160\vm.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\annotation.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\beans.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\java.util.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\jndi.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\logging.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\security.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\sql.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmorb.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmorbapi.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmcfw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\rt.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\charsets.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\resources.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmpkcs.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmcertpathfw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmjgssfw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmjssefw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmsaslfw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmjcefw.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmjgssprovider.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmjsseprovider2.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\ibmcertpathprovider.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\management-agent.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\xml.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\jlm.jar"/>
+<entry path="C:\IBM\WAS80\java\jre\lib\javascript.jar"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\IBM\WAS80\java\jre\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\IBM\WAS80\java\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="C:\Program Files\Java\jre1.7.0_51" version="1.7.0_51">
+<bootpath>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\resources.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\rt.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\sunrsasign.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\jsse.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\jce.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\charsets.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\jfr.jar"/>
+<entry path="C:\Program Files\Java\jre1.7.0_51\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\Program Files\Java\jre1.7.0_51\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="C:\IBM\SDP90\jdk" version="1.7.0">
+<bootpath>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\jaxws-api.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\jaxb-api.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed\javax.j2ee.annotation.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\bin\compressedrefs\jclSC170\vm.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\se-service.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\math.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\jlm.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmorb.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmorbapi.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmpkcs.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcertpathfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjgssfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjssefw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmsaslfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjcefw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjgssprovider.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmjsseprovider2.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ibmcertpathprovider.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\xmldsigfw.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\xml.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\charsets.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\resources.jar"/>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\rt.jar"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\IBM\SDP90\jdk\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

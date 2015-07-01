@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy:proxy-rules
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:proxy="http://www.ibm.com/xmlns/prod/sw/ajax/proxy-config/1.1">
+	<proxy:mapping contextpath="http/*" />
+	<proxy:mapping contextpath="https/*" />
+	<proxy:mapping url="http://www.ibm.com" contextpath="us/en" />
+	<proxy:policy url="*" acf="none">
+		<proxy:actions>
+			<proxy:method>GET</proxy:method>
+			<proxy:method>POST</proxy:method> 
+            <proxy:method>PUT</proxy:method> 
+            <proxy:method>DELETE</proxy:method> 
+            <proxy:method>HEAD</proxy:method> 
+		</proxy:actions>
+		<proxy:headers></proxy:headers>
+		<proxy:mime-types></proxy:mime-types>
+		<proxy:cookies></proxy:cookies>
+		<proxy:users></proxy:users>				
+	</proxy:policy>
+	<proxy:ipfilter></proxy:ipfilter>
+	<proxy:meta-data>
+		<proxy:name>unsigned_ssl_certificate_support</proxy:name>
+		<proxy:value>true</proxy:value>
+	</proxy:meta-data>
+	<proxy:meta-data>
+		<proxy:name>forward-http-errors</proxy:name>
+		<proxy:value>true</proxy:value>
+	</proxy:meta-data>
+</proxy:proxy-rules>

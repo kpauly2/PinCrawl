@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><servers>
+  <server auto-publish-setting="2" auto-publish-time="1" configMode="1" hostname="127.0.0.1" id="defaultServer0" id-set="true" name="Web Preview Server" runtime-id="Web Preview Server Runtime" server-type="com.ibm.etools.wdt.server.serverType" server-type-id="com.ibm.etools.wdt.server.serverType" serverName="defaultServer0" start-timeout="30" stop-timeout="15" timestamp="0"/>
+</servers>

@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+generateWebService=4
+installClient=false
+installWebService=false
+startWebService=false
+webServiceType=1/org.eclipse.jst.ws.wsImpl.java

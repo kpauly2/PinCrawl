@@ -1,0 +1,6 @@
+ADVISOR_ROLE_SCOPE_LIST2034777117=rup_designer;rup_software_architect;rup_system_architect;rup_system_designer;
+ADVISOR_SEARCH_SCOPE_LIST=task;artifact;toolmentor;
+ADVISOR_UI_ROLE_SCOPE_LIST2034777117=developers;rup_designer|2194f9d1;rup_software_architect|7ce80383;rup_system_architect|d09b3b0e;rup_system_designer|27e63909;
+DEFAULT_CONFIG_LIST=C\:\\IBM\\common\\plugins\\com.ibm.process.config.rsa_7.0.0.v20060726\\content.zip;
+PROCESS_CONFIG_LIST=C\:\\IBM\\common\\plugins\\com.ibm.process.config.rsa_7.0.0.v20060726\\content.zip;
+eclipse.preferences.version=1

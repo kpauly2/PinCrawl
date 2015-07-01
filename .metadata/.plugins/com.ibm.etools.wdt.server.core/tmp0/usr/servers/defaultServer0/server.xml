@@ -1,0 +1,21 @@
+<server description="new server">   
+    <featureManager continueOnError="false">
+        <feature>localConnector-1.0</feature>
+        <feature>servlet-3.0</feature>
+        <feature>jsp-2.2</feature>
+        <feature>jaxrs-1.1</feature>
+     	<feature>security-1.0</feature>
+    </featureManager>
+    <applicationMonitor updateTrigger="mbean"/>
+    <application id="proxy"
+    			 name="proxy"
+    			 type="war"
+    			 location="proxy.war">
+    </application>
+    <httpEndpoint id="defaultHttpEndpoint"
+		host="*"
+		httpPort="${default.http.port}"
+		httpsPort="${default.https.port}">
+		<tcpOptions soReuseAddr="true" />
+	</httpEndpoint>
+</server>

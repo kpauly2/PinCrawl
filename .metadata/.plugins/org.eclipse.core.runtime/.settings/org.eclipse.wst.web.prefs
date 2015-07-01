@@ -1,0 +1,11 @@
+addToEarByDefault=true
+com.ibm.etools.j2ee.preferences.j2eePerspective=true
+com.ibm.etools.j2ee.preferences.wsCleaned=true
+earContent=
+eclipse.preferences.version=1
+ejb_business_interaface_annotation_in_bean=true
+ejb_business_interaface_annotation_in_interface=false
+ejb_interface_package_suffix=view
+idPerspectiveHierarchyView=com.ibm.etools.ui.navigator.SDExplorer
+useSingleRootStructure=true
+viewerSyncForWebservices=false

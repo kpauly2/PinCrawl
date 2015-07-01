@@ -1,0 +1,19 @@
+package main;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Main {
+
+    public static void main(final String[] args) throws IOException {
+        final Document doc = Jsoup.connect("http://www.pinterest.com/kpauly").get();
+        final Elements boardLinks = doc.select("a[href].boardLinkWrapper");
+        for (final Element link : boardLinks) {
+            System.out.println(link.text());
+        }
+    }
+}

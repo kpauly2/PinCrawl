@@ -1,0 +1,16 @@
+!SESSION 2015-07-01 08:02:25.090 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=JRE 1.7.0 IBM J9 2.6 Windows 7 amd64-64 Compressed References 20130617_152572 (JIT enabled, AOT enabled)
+J9VM - R26_Java726_SR5_20130617_1436_B152572
+JIT  - r11.b04_20130528_38954ifx1
+GC   - R26_Java726_SR5_20130617_1436_B152572_CMPRSS
+J9CL - 20130617_152572
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product com.ibm.rational.rsa4ws.product.v90.ide
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product com.ibm.rational.rsa4ws.product.v90.ide
+
+!ENTRY org.eclipse.osgi 2 1 2015-07-01 08:03:19.838
+!MESSAGE NLS unused message: ACCUREV_REL_DATE in: com.accurev.ide.eclipse.messages
+
+!ENTRY org.eclipse.core.resources 4 380 2015-07-01 08:14:18.925
+!MESSAGE The resource tree is locked for modifications.
