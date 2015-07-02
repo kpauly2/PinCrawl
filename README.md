@@ -1,5 +1,5 @@
 # PinCrawl
-A simple app to download any Pinterest user's pins to a local directory
+A simple app to download any Pinterest user's pins to a local directory.
 
 ## Usage
 Simply exectue the jar via command line including a user name argument.
@@ -11,3 +11,5 @@ Simply exectue the jar via command line including a user name argument.
 ## To Do
 - Add arguments for overwrite, subtractive, and additive changes to existing directory structure
 - Allow .gifs
+- Test on platforms other than Win x64
+- GUI?

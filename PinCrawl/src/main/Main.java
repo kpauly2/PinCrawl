@@ -15,34 +15,47 @@ import org.jsoup.select.Elements;
 import javax.imageio.ImageIO;
 
 /**
- * A simple app that takes a Pinterest user name and downloads all boards
- * and pins for that user to local directory.
+ * A simple app to download any Pinterest user's pins to a local directory.
  */
 public class Main {
 
-    private static String ROOT_DIR = "PinCrawl Results";
+    private static final int TIMEOUT = 10000;
+    private static String _username;
+    private static String rootDir = "PinCrawl Results";
 
     /**
-     * All main logic
+     * Verify arguments, and handle some errors
      *
      * @param args arguments (needs a string for username or abort)
-     * @throws IOException
      */
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args)  {
         System.out.println("Welcome to PinCrawl, this may take a while...");
+
         // get username
-        String username;
         if (args.length > 0) {
-            username = args[0];
+            _username = args[0];
         } else {
             System.out.println("ERROR: please enter a user name, aborting.");
             return;
         }
 
+        try {
+            process();
+        } catch (IOException e) {
+            System.out.println("ERROR: IOException, probably a messed up URL.");
+        }
+    }
+
+    /**
+     * All main logic
+     *
+     * @throws  IOException if bad URL
+     */
+    private static void process() throws IOException {
         // validate username and connect to their page
         Document doc;
         try {
-            doc = Jsoup.connect("https://www.pinterest.com/" + username + "/").get();
+            doc = Jsoup.connect("https://www.pinterest.com/" + _username + "/").timeout(TIMEOUT).get();
         } catch (HttpStatusException e) {
             System.out.println("ERROR: not a valid user name, aborting.");
             return;
@@ -51,14 +64,14 @@ public class Main {
         final Elements boardLinks = doc.select("a[href].boardLinkWrapper");
 
         // make root directory
-        ROOT_DIR += " for " + username;
-        if(!makeDir(ROOT_DIR))
+        rootDir += " for " + _username;
+        if(!makeDir(rootDir))
             return;
-        System.out.println("Downloading all pins to '" + ROOT_DIR + "'...");
+        System.out.println("Downloading all pins to '" + rootDir + "'...");
 
         for (final Element boardLink : boardLinks) {
             // connect to board via url and get all page urls
-            final Document boardDoc = Jsoup.connect(boardLink.absUrl("href")).get();
+            final Document boardDoc = Jsoup.connect(boardLink.absUrl("href")).timeout(TIMEOUT).get();
             final Elements pageLinks = boardDoc.select("a[href].pinImageWrapper");
 
             // parse and format board name and make its directory
@@ -66,24 +79,25 @@ public class Main {
             boardName = boardName.substring(10, boardName.length()); // remove "more from" part
             boardName = URLEncoder.encode(boardName, "UTF-8");
             boardName = boardName.replace('+',' ');
-            if(!makeDir(ROOT_DIR + "\\" + boardName))
+            if(!makeDir(rootDir + "\\" + boardName))
                 return;
 
             System.out.println("...Downloading '" + boardName + "'...");
             int imgCount = 1;
             for (final Element pageLink : pageLinks) {
                 // connect to image page and get direct link to image then save it
-                final Document pageDoc = Jsoup.connect(pageLink.absUrl("href")).get();
+                final Document pageDoc = Jsoup.connect(pageLink.absUrl("href")).timeout(TIMEOUT).get();
                 final Elements imgLinks = pageDoc.select("img[src].pinImage");
                 for (final Element imgLink : imgLinks) {
-                    saveImage(imgLink.absUrl("src"), ROOT_DIR + "\\" + boardName, imgCount);
+                    saveImage(imgLink.absUrl("src"), rootDir + "\\" + boardName, imgCount);
                 }
                 imgCount++;
             }
         }
 
         System.out.println("All pins downloaded, to " + System.getProperty("user.dir")
-                           + "\\"  + ROOT_DIR + " Thanks for using PinCrawl");
+                + "\\"  + rootDir + "\\");
+        System.out.println("Thanks for using PinCrawl!");
     }
 
     /**
