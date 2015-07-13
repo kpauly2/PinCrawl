@@ -1,6 +1,9 @@
 # PinCrawl
 A simple app to download any Pinterest user's pins to a local directory.
 
+## Download
+If you just want to use the app, download the JAR here: http://www.mediafire.com/download/ky5oxy3s2y42yst/PinCrawl.jar
+
 ## Usage
 Simply exectue the jar via command line including a user name argument.
 > java -jar PinCrawl.jar kevinpauly
