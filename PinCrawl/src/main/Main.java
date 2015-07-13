@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -65,6 +67,8 @@ public class Main {
 
         // make root directory
         rootDir += " for " + _username;
+        String sdf = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        rootDir += " " + sdf;
         if(!makeDir(rootDir))
             return;
         System.out.println("Downloading all pins to '" + rootDir + "'...");
@@ -75,10 +79,38 @@ public class Main {
             final Elements pageLinks = boardDoc.select("a[href].pinImageWrapper");
 
             // parse and format board name and make its directory
-            String boardName = boardLink.attr("title");
-            boardName = boardName.substring(10, boardName.length()); // remove "more from" part
+            // new, get name from Module User boardRepTitle hasText thumb title inside, instead of hover
+            // hate having to use all these loops, wasn't getting selector and .attr working properly and give up
+            // cause I was tired, so loops it is
+            String boardName = null;
+            for(Element el : boardLink.children()) {
+                if (el.className().equals("boardName hasBoardContext")) {
+                    for (Element el2 : el.children()) {
+                        if (el2.className().equals("Module User boardRepTitle hasText thumb")) {
+                            for (Element el3 : el2.children()) {
+                                if (el3.className().equals("title")) {
+                                    boardName = el3.childNode(0).outerHtml();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(boardName == null || boardName.isEmpty()) {
+                System.out.println("ERROR: couldn't find name of board, it's the developer's fault. Aborting.");
+                return;
+            }
             boardName = URLEncoder.encode(boardName, "UTF-8");
             boardName = boardName.replace('+',' ');
+            // plus extra length safety now
+            if(boardName.length() > 256) {
+                boardName = boardName.substring(0, 256);
+            }
+            // old, got title and description
+            //String boardName = boardLink.attr("title");
+            //boardName = boardName.substring(10, boardName.length()); // remove "more from" part
+            //boardName = URLEncoder.encode(boardName, "UTF-8");
+            //boardName = boardName.replace('+',' ');
             if(!makeDir(rootDir + "\\" + boardName))
                 return;
 
