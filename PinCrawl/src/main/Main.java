@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -37,8 +38,13 @@ public class Main {
         if (args.length > 0) {
             _username = args[0];
         } else {
-            System.out.println("ERROR: please enter a user name, aborting.");
-            return;
+            System.out.println("Enter username:");
+            Scanner s = new Scanner(System.in);
+            _username = s.next();
+            if (_username.length() == 0) {
+                System.out.println("ERROR: please enter a user name, aborting.");
+                return;
+            }
         }
 
         try {
