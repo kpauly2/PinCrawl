@@ -1,21 +1,21 @@
 package main;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+import java.util.Scanner;
 
 /**
  * A simple app to download any Pinterest user's pins to a local directory.
@@ -31,8 +31,8 @@ public class Main {
      *
      * @param args arguments (needs a string for username or abort)
      */
-    public static void main(final String[] args)  {
-        System.out.println("Welcome to PinCrawl, this may take a while...");
+    public static void main(final String[] args) {
+        System.out.println("Welcome to PinCrawl!");
 
         // get username
         if (args.length > 0) {
@@ -41,12 +41,17 @@ public class Main {
             System.out.println("Enter username:");
             Scanner s = new Scanner(System.in);
             _username = s.next();
-            if (_username.length() == 0) {
+            if (_username.isEmpty()) {
                 System.out.println("ERROR: please enter a user name, aborting.");
                 return;
             }
         }
 
+        _username = cleanFilename(_username.trim());
+        if (_username.contains(" ")) {
+            System.out.println("ERROR: username contains space character");
+            return;
+        }
         try {
             process();
         } catch (IOException e) {
@@ -57,85 +62,168 @@ public class Main {
     /**
      * All main logic
      *
-     * @throws  IOException if bad URL
+     * @throws IOException if bad URL
      */
     private static void process() throws IOException {
         // validate username and connect to their page
-        Document doc;
+        System.out.println("loading...");
+        Connection.Response doc;
         try {
-            doc = Jsoup.connect("https://www.pinterest.com/" + _username + "/").timeout(TIMEOUT).get();
+            doc = Jsoup.connect("https://www.pinterest.com/resource/UserResource/get/")
+                    .data("data", "{\"options\":{\"username\":\"" + _username
+                            + "\",\"page_size\":250},\"module\":{\"name\":\"UserProfileContent\",\"options\":{\"tab\":\"boards\"}}}")
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .ignoreContentType(true)
+                    .maxBodySize(0)
+                    .timeout(TIMEOUT).execute();
         } catch (HttpStatusException e) {
             System.out.println("ERROR: not a valid user name, aborting.");
             return;
         }
-        // list of board urls
-        final Elements boardLinks = doc.select("a[href].boardLinkWrapper");
-
-        // make root directory
-        rootDir += " for " + _username;
-        String sdf = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        rootDir += " " + sdf;
-        if(!makeDir(rootDir))
-            return;
-        System.out.println("Downloading all pins to '" + rootDir + "'...");
-
-        for (final Element boardLink : boardLinks) {
-            // connect to board via url and get all page urls
-            final Document boardDoc = Jsoup.connect(boardLink.absUrl("href")).timeout(TIMEOUT).get();
-            final Elements pageLinks = boardDoc.select("a[href].pinImageWrapper");
-
-            // parse and format board name and make its directory
-            // new, get name from Module User boardRepTitle hasText thumb title inside, instead of hover
-            // hate having to use all these loops, wasn't getting selector and .attr working properly and give up
-            // cause I was tired, so loops it is
-            String boardName = null;
-            for(Element el : boardLink.children()) {
-                if (el.className().equals("boardName hasBoardContext")) {
-                    for (Element el2 : el.children()) {
-                        if (el2.className().equals("Module User boardRepTitle hasText thumb")) {
-                            for (Element el3 : el2.children()) {
-                                if (el3.className().equals("title")) {
-                                    boardName = el3.childNode(0).outerHtml();
+        JSONObject userObj = new JSONObject(doc.body());
+        JSONArray boardsArr;
+        try {
+            boardsArr = userObj.getJSONObject("module").getJSONObject("tree").getJSONArray("children").getJSONObject(0)
+                    .getJSONArray("children").getJSONObject(0).getJSONArray("children").getJSONObject(0)
+                    .getJSONArray("data");
+        } catch (Exception e) {
+            try {
+                boardsArr = userObj.getJSONObject("module").getJSONObject("tree").getJSONArray("children")
+                        .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("data");
+            } catch (Exception e1) {
+                try {
+                    boardsArr = userObj.getJSONObject("module").getJSONObject("tree").getJSONArray("children")
+                            .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("children")
+                            .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("data");
+                } catch (Exception e2) {
+                    try {
+                        boardsArr = userObj.getJSONObject("module").getJSONObject("tree").getJSONArray("children")
+                                .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("children")
+                                .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("children")
+                                .getJSONObject(0).getJSONArray("data");
+                    } catch (Exception e3) {
+                        try {
+                            boardsArr = userObj.getJSONObject("module").getJSONObject("tree").getJSONArray("children")
+                                    .getJSONObject(0).getJSONArray("children").getJSONObject(0).getJSONArray("children")
+                                    .getJSONObject(0).getJSONArray("children");
+                        } catch (Exception e4) {
+                            try {
+                                boardsArr = userObj.getJSONArray("resource_data_cache").getJSONObject(1)
+                                        .getJSONArray("data");
+                            } catch (Exception e5) {
+                                System.out.println("Warning: Pinterest didn't return boards list. Trying plan B...");
+                                try {
+                                    doc = Jsoup.connect("https://www.pinterest.com/resource/BoardsResource/get/")
+                                            .data("data",
+                                                    "{\"options\":{\"username\":\"" + _username
+                                                            + "\",\"field_set_key\":\"grid_item\"}}")
+                                            .header("X-Requested-With", "XMLHttpRequest")
+                                            .ignoreContentType(true)
+                                            .maxBodySize(0)
+                                            .timeout(TIMEOUT).execute();
+                                    userObj = new JSONObject(doc.body());
+                                    boardsArr = userObj.getJSONObject("resource_response").getJSONArray("data");
+                                } catch (Exception e6) {
+                                    System.out.println("ERROR: plan B failed. Try again later");
+                                    return;
                                 }
                             }
                         }
                     }
                 }
             }
-            if(boardName == null || boardName.isEmpty()) {
-                System.out.println("ERROR: couldn't find name of board, it's the developer's fault. Aborting.");
-                return;
-            }
-            boardName = URLEncoder.encode(boardName, "UTF-8");
-            boardName = boardName.replace('+',' ');
-            // plus extra length safety now
-            if(boardName.length() > 256) {
-                boardName = boardName.substring(0, 256);
-            }
-            // old, got title and description
-            //String boardName = boardLink.attr("title");
-            //boardName = boardName.substring(10, boardName.length()); // remove "more from" part
-            //boardName = URLEncoder.encode(boardName, "UTF-8");
-            //boardName = boardName.replace('+',' ');
-            if(!makeDir(rootDir + "\\" + boardName))
-                return;
-
-            System.out.println("...Downloading '" + boardName + "'...");
-            int imgCount = 1;
-            for (final Element pageLink : pageLinks) {
-                // connect to image page and get direct link to image then save it
-                final Document pageDoc = Jsoup.connect(pageLink.absUrl("href")).timeout(TIMEOUT).get();
-                final Elements imgLinks = pageDoc.select("img[src].pinImage");
-                for (final Element imgLink : imgLinks) {
-                    saveImage(imgLink.absUrl("src"), rootDir + "\\" + boardName, imgCount);
-                }
-                imgCount++;
-            }
         }
 
+        // make root directory
+        rootDir += " for " + _username;
+        String sdf = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        rootDir += " " + sdf;
+        if (!makeDir(rootDir))
+            return;
+        System.out.println("Downloading pins to '" + rootDir + "'...");
+        System.out.println("Available albums:");
+        int i = 0;
+        for (Object board : boardsArr) {
+            JSONObject boardObj = (JSONObject) board;
+            System.out.println(++i + ". " + boardObj.getString("name") + " (" + boardObj.getInt("pin_count") + ")");
+        }
+        System.out.println("0. ALL ALBUMS");
+        System.out.print("Enter the number of album: ");
+        Scanner s = new Scanner(System.in);
+
+        int choise = 0;
+        try {
+            choise = Integer.parseInt(s.next());
+        } catch (Exception e) {
+            System.out.println("Wrong number, using 0: All albums");
+        }
+        if (choise > 0) {
+            downloadAlbum(boardsArr.getJSONObject(choise - 1));
+        } else
+            for (Object board : boardsArr) {
+                downloadAlbum((JSONObject) board);
+            }
+
         System.out.println("All pins downloaded, to " + System.getProperty("user.dir")
-                + "\\"  + rootDir + "\\");
+                + File.separator + rootDir + File.separator);
         System.out.println("Thanks for using PinCrawl!");
+    }
+
+    private static void downloadAlbum(JSONObject boardObj) {
+        String boardName = boardObj.getString("name");
+        if (boardName == null || boardName.isEmpty()) {
+            System.out.println("ERROR: couldn't find name of board, it's the developer's fault. Aborting.");
+            return;
+        }
+        boardName = cleanFilename(boardName);
+        if (!makeDir(rootDir + File.separator + boardName))
+            return;
+
+        System.out.println("Downloading '" + boardName + "'...");
+        // connect to board via url and get all page urls
+        JSONArray bookmarks = new JSONArray("[\"\"]");
+        int count = 0;
+        while (!bookmarks.getString(0).equals("-end-")) {
+            Connection.Response boardDoc = null;
+            try {
+                boardDoc = Jsoup.connect("https://www.pinterest.com/resource/BoardFeedResource/get/")
+                        .data("data",
+                                "{\"options\":{\"board_id\":\"" + boardObj.getString("id")
+                                        + "\",\"page_size\":250,\"bookmarks\":" + bookmarks + "}}")
+                        .header("X-Requested-With", "XMLHttpRequest")
+                        .ignoreContentType(true)
+                        .maxBodySize(0)
+                        .timeout(TIMEOUT).execute();
+            } catch (IOException e) {
+                System.out.println("Error downloading board!");
+                e.printStackTrace();
+            }
+
+            if (boardDoc != null) {
+                JSONObject obj = new JSONObject(boardDoc.body());
+                JSONArray arr = obj.getJSONObject("resource_response").getJSONArray("data");
+                bookmarks = obj.getJSONObject("resource").getJSONObject("options").getJSONArray("bookmarks");
+                for (int i = 0; i < arr.length(); i++) {
+                    if (arr.getJSONObject(i).has("images")) {
+                        Instant instant = Instant.now();
+                        long timeStampMillis = instant.toEpochMilli();
+                        String picfilenam;
+                        if (arr.getJSONObject(i).has("description") && !arr.getJSONObject(i).isNull("description")) {
+                            if (arr.getJSONObject(i).getString("description").length() < 2) {
+                                picfilenam = ++count + "_" + timeStampMillis;
+                            } else {
+                                picfilenam = ++count + "_" + arr.getJSONObject(i).getString("description");
+                            }
+                        } else {
+                            picfilenam = ++count + "_" + timeStampMillis;
+                        }
+                        saveImage(arr.getJSONObject(i).getJSONObject("images").getJSONObject("orig").getString("url"),
+                                rootDir + File.separator + boardName, picfilenam);
+                    }
+                }
+            } else
+                System.out.println("Board is empty!");
+        }
     }
 
     /**
@@ -144,7 +232,7 @@ public class Main {
      *
      * @param name name of the file
      */
-    public static boolean makeDir(String name) {
+    private static boolean makeDir(String name) {
         File file = new File(name);
         if (!file.exists()) {
             if (file.mkdir()) {
@@ -158,25 +246,33 @@ public class Main {
         return false;
     }
 
+    private static String cleanFilename(String name) {
+        String tmp = name.replaceAll("[<>\\.\\\\:\"/\\|\\?\\*]", "_").replaceAll("\\s+$", "_").replaceAll("\n", "_")
+                .replaceAll("\r", "_").replace(" ", "_").replace("__", "_").replace("_.", ".");
+        if (tmp.length() > 100)
+            tmp = tmp.substring(0, 100);
+        return tmp;
+    }
+
     /**
      * Saves an image from the specified URL to the path with the name count
-     * TODO: allow gifs, maybe
      *
-     * @param srcUrl url of image
-     * @param path path to save image (in root\board)
-     * @param count count to name image since I don't want to use the long and tedious names on pinterest
-     * @throws IOException
+     * @param srcUrl   url of image
+     * @param path     path to save image (in root\board)
+     * @param filename name of image
      */
-    public static void saveImage(String srcUrl, String path, int count) throws IOException {
-        BufferedImage image;
-        URL url = new URL(srcUrl);
-        if(srcUrl.endsWith(".gif"))
-            System.out.println("ERROR: .gifs not supported, continuing");
+    private static void saveImage(String srcUrl, String path, String filename) {
         try {
-            image = ImageIO.read(url);
-            ImageIO.write(image, "png", new File(path + "\\" + count + ".png"));
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("ERROR: Image too big, probably a .gif that didn't end with .gif, continuing");
+            URL url = new URL(srcUrl);
+            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+            FileOutputStream fos = new FileOutputStream(
+                    path + File.separator + cleanFilename(filename) + "." + srcUrl.substring(srcUrl.length() - 3));
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            System.out.println("Error saving image: ");
+            e.printStackTrace();
         }
     }
 }
